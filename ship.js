@@ -6,6 +6,10 @@ var numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10];
 var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
 function splitt(x) {
+    // This is a special function that splits a string into an array.
+    // JS has a split function, but that function does not work when
+    // we have a coord that has a 2 digit number in addition to the
+    // letter.
     if (x.length == 3) {
         var t = x.split("");
         var b = new Array();
@@ -17,20 +21,29 @@ function splitt(x) {
 }
 
 
-
 function letterPosition(e) {
+    // returns the numerical position of the passed in letter
     return letters.indexOf(e) + 1;
 }
 
+
 function disableNAcells(except) {
+    // This function disables the cells that are out of range in the row
+    // and col of the selected cell.
     console.log("Except:", except);
     for (var x = 0; x < letters.length; x++) {
         if (letters[x] != except) {
             $('td[id^="' + letters[x] + '"]').addClass("disabled");
         }
     }
+
+    //  $('td[id^="' + letters[x] + '"]').hasClass("clicked")
 }
+
+
 function disableColumncells(except) {
+    // This function disables everything cell that is not in the row of col of the selected
+    // cell.
     console.log("Except:", except);
     for (var x = 0; x < numbers.length; x++) {
         if (numbers[x] != except) {
