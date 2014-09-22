@@ -5,6 +5,10 @@
 var numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10];
 var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
+var takenCoords = new Array();
+takenCoords.push("E8");
+takenCoords.push("F8");
+
 function splitt(x) {
     // This is a special function that splits a string into an array.
     // JS has a split function, but that function does not work when
@@ -33,7 +37,10 @@ function disableNAcells(except) {
     console.log("Except:", except);
     for (var x = 0; x < letters.length; x++) {
         if (letters[x] != except) {
-            $('td[id^="' + letters[x] + '"]').addClass("disabled");
+            if (!$('td[id^="' + letters[x] + '"]').hasClass("clicked")) {
+                $('td[id^="' + letters[x] + '"]').addClass("disabled");
+            }
+
         }
     }
 
@@ -47,7 +54,10 @@ function disableColumncells(except) {
     console.log("Except:", except);
     for (var x = 0; x < numbers.length; x++) {
         if (numbers[x] != except) {
-            $('td[id$="' + numbers[x] + '"]').addClass("disabled");
+            if (!$('td[id$="' + numbers[x] + '"]').hasClass("clicked")) {
+                $('td[id$="' + numbers[x] + '"]').addClass("disabled");
+            }
+
         }
     }
 }
@@ -254,6 +264,53 @@ function searchForRowHinderances(center, letter, number) {
         console.log("Center:" + center + ", letter:" + letter + ", number" + number);
 }
 
+function anythingOnTheRight(center, letter) {
+
+    for ( var x = center + 1; x < 11; x++) {
+        if ($('td[id="' + letter + x + '"]').hasClass("clicked")) {
+            return [letter, x];
+        }
+    }
+    return null;
+}
+
+function findRightBound(center, centerLetter, SClength, p) {
+//    console.log("===========================================");
+//    console.log("===========================================");
+//    console.log("Center : ", center, " CenterLetter : ", centerLetter);
+//    =-=Used COords:  ["E8", "F8"] ship.js:332
+//    Center: 4, CenterLetter: 5 ship.js:352
+//    Left: 1 , Right: 7, Top: 2, Bottom: 8 ship.js:353
+//    =========================================== ship.js:278
+//    =========================================== ship.js:279
+//    Center :  4  CenterLetter :  E ship.js:280
+//        ["E", 8] ship.js:282
+//    can proceede
+
+    console.log(anythingOnTheRight(center, centerLetter));
+    var checkRight = anythingOnTheRight(center, centerLetter);
+    var right = center + (p - SClength);
+
+    if (checkRight == null) {
+        right = (right > 10) ? 10 : right;
+        console.log("From right", right);
+        if ((right - (center - 1)) < p) {
+            return false;
+        }
+        return true;
+    } else {
+        if (right < checkRight[1]) {
+            console.log("can proceede");
+            return true;
+        } else {
+            console.log("cannot go right");
+            return false;
+        }
+
+    }
+
+}
+
 Ship.prototype.step1 = function () {
 
     var tmp1 = splitt(this.shipCords[0]);
@@ -265,6 +322,7 @@ Ship.prototype.step1 = function () {
     var top = centerLetter - (this.pegLength - this.shipCords.length);
     var bottom = centerLetter + (this.pegLength - this.shipCords.length);
 
+   // findRightBound(center, tmp1[0], this.shipCords.length, this.pegLength);
 
 
     left = (left < 1) ? 1 : left;
@@ -272,22 +330,26 @@ Ship.prototype.step1 = function () {
     top = (top < 1) ? 1 : top;
     bottom = (bottom > 10) ? 10 : bottom;
 
-    for (var x = 1; x < left; x++) {
-        $('td[id="' + tmp1[0] + x + '"]').addClass("disabled");
-    }
 
-    for (var y = 10; y > right; y--) {
-        $('td[id="' + tmp1[0] + y + '"]').addClass("disabled");
-    }
+    console.log("=-=Used COords: ", takenCoords);
 
-    for (var x = 1; x < top; x++) {
-        //console.log(letters[x-1] + "=+=" + center);
-        $('td[id="' + letters[x-1] + center + '"]').addClass("disabled");
-    }
-
-    for (var y = 10; y > bottom; y--) {
-        $('td[id="' + letters[y-1] + center + '"]').addClass("disabled");
-    }
+// code used to elinminate stuff in the row that are out of reach
+//    for (var x = 1; x < left; x++) {
+//        $('td[id="' + tmp1[0] + x + '"]').addClass("disabled");
+//    }
+//
+//    for (var y = 10; y > right; y--) {
+//        $('td[id="' + tmp1[0] + y + '"]').addClass("disabled");
+//    }
+//
+//    for (var x = 1; x < top; x++) {
+//        //console.log(letters[x-1] + "=+=" + center);
+//        $('td[id="' + letters[x-1] + center + '"]').addClass("disabled");
+//    }
+//
+//    for (var y = 10; y > bottom; y--) {
+//        $('td[id="' + letters[y-1] + center + '"]').addClass("disabled");
+//    }
 
     console.log("Center: " + center + ", CenterLetter: " + centerLetter);
     console.log("Left: " + left + " , Right: " + right + ", Top: " + top + ", Bottom: " + bottom);
@@ -299,12 +361,22 @@ Ship.prototype.step1 = function () {
         console.log("====================No Left");
     }
 
-    if ((center + (this.pegLength - this.shipCords.length)) <= 10) {
+
+
+    if (findRightBound(center, tmp1[0], this.shipCords.length, this.pegLength)) {
         this.potentialEnds.push(tmp1[0] + right);
         $('td[id="' + tmp1[0] + right + '"]').addClass("gr");
     } else {
         console.log("====================No RIght");
     }
+
+    //    if ((center + (this.pegLength - this.shipCords.length)) <= 10) {
+//        this.potentialEnds.push(tmp1[0] + right);
+//        $('td[id="' + tmp1[0] + right + '"]').addClass("gr");
+//    } else {
+//        console.log("====================No RIght");
+//    }
+
 
     if (centerLetter >= this.pegLength) {
         this.potentialEnds.push(letters[top-1] + center);
