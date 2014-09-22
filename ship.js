@@ -8,6 +8,8 @@ var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 var takenCoords = new Array();
 takenCoords.push("E8");
 takenCoords.push("F8");
+takenCoords.push("E2");
+takenCoords.push("F2");
 
 function splitt(x) {
     // This is a special function that splits a string into an array.
@@ -264,6 +266,46 @@ function searchForRowHinderances(center, letter, number) {
         console.log("Center:" + center + ", letter:" + letter + ", number" + number);
 }
 
+
+function anythingOnTheLeft(center, letter) {
+    for (var x = center - 1; x > 0; x--) {
+        if ($('td[id="' + letter + x + '"]').hasClass("clicked")) {
+            return [letter, x];
+        }
+    }
+}
+
+function findLeftBound(center, centerLetter, SClength, p) {
+    console.log("================Left ===========================");
+    console.log("===========================================");
+    console.log("Center : ", center, " CenterLetter : ", centerLetter);
+
+    console.log(anythingOnTheLeft(center, centerLetter));
+    var checkLeft = anythingOnTheLeft(center, centerLetter);
+    var left = center - (p - SClength);
+    if (checkLeft == null) {
+        left = (left < 1) ? 1 : left;
+        console.log("From right", left);
+        //if ()
+       if ((left + (center - 1)) < p) {
+            return false;
+       }
+        return true;
+    } else {
+        if (left > checkLeft[1]) {
+            console.log("can proceede");
+            return true;
+        } else {
+            console.log("cannot go right");
+            return false;
+        }
+
+    }
+
+}
+
+
+
 function anythingOnTheRight(center, letter) {
 
     for ( var x = center + 1; x < 11; x++) {
@@ -324,6 +366,8 @@ Ship.prototype.step1 = function () {
 
    // findRightBound(center, tmp1[0], this.shipCords.length, this.pegLength);
 
+    findLeftBound(center, tmp1[0], this.shipCords.length, this.pegLength);
+
 
     left = (left < 1) ? 1 : left;
     right = (right > 10) ? 10 : right;
@@ -354,14 +398,19 @@ Ship.prototype.step1 = function () {
     console.log("Center: " + center + ", CenterLetter: " + centerLetter);
     console.log("Left: " + left + " , Right: " + right + ", Top: " + top + ", Bottom: " + bottom);
 
-    if (center >= this.pegLength) {
+//    if (center >= this.pegLength) {
+//        this.potentialEnds.push(tmp1[0] + left);
+//        $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
+//    } else {
+//        console.log("====================No Left");
+//    }
+
+    if (findLeftBound(center, tmp1[0], this.shipCords.length, this.pegLength)) {
         this.potentialEnds.push(tmp1[0] + left);
         $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
     } else {
         console.log("====================No Left");
     }
-
-
 
     if (findRightBound(center, tmp1[0], this.shipCords.length, this.pegLength)) {
         this.potentialEnds.push(tmp1[0] + right);
