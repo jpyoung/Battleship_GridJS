@@ -36,59 +36,6 @@ function letterPosition(e) {
 }
 
 
-function disableNAcells(except) {
-    // This function disables the cells that are out of range in the row
-    // and col of the selected cell.
-    console.log("Except:", except);
-    for (var x = 0; x < letters.length; x++) {
-        if (letters[x] != except) {
-            if (!$('td[id^="' + letters[x] + '"]').hasClass("clicked")) {
-                $('td[id^="' + letters[x] + '"]').addClass("disabled");
-            }
-
-        }
-    }
-
-    //  $('td[id^="' + letters[x] + '"]').hasClass("clicked")
-}
-
-
-function disableColumncells(except) {
-    // This function disables everything cell that is not in the row of col of the selected
-    // cell.
-    console.log("Except:", except);
-    for (var x = 0; x < numbers.length; x++) {
-        if (numbers[x] != except) {
-            if (!$('td[id$="' + numbers[x] + '"]').hasClass("clicked")) {
-                $('td[id$="' + numbers[x] + '"]').addClass("disabled");
-            }
-
-        }
-    }
-}
-
-function enableCol(include) {
-    $('td[id$="' + include + '"]').removeClass("disabled");
-}
-
-function disableRemaingRowsCells(initialSelectionID) {
-    var tmp = splitt(initialSelectionID);
-    console.log("Remaining ROw: ", tmp);
-    disableNAcells(tmp[0]);
-}
-
-function disableRemaingColumnCells(initialSelectionID) {
-    var tmp = splitt(initialSelectionID);
-    console.log("Remaining Col: ", tmp);
-    disableColumncells(tmp[1]);
-}
-
-function showPlausibleSelections(initialSelectionID) {
-    var tmp = splitt(initialSelectionID);
-    disableNAcells(tmp[0]);
-    enableCol(tmp[1]);
-
-}
 
 function clearDisabledCells() {
     $('td').removeClass("disabled");
@@ -254,6 +201,7 @@ Ship.prototype.fillInShip = function () {
 
 }
 
+
 Ship.prototype.removePotentialEndsColoring = function () {
 
     //removing the potential green select end parts of the ships
@@ -265,20 +213,27 @@ Ship.prototype.removePotentialEndsColoring = function () {
     clearDisabledCells();
 }
 
-function searchForRowHinderances(center, letter, number) {
-        console.log("Center:" + center + ", letter:" + letter + ", number" + number);
+
+
+
+
+
+
+function hasClickedClass(letter, number) {
+    // function is used by the anything methods to check if
+    // the given letter and number have click class
+    if ($('td[id="' + letter + number + '"]').hasClass("clicked")) {
+        return true;
+    }
+    return false;
 }
-
-
-
-
 
 
 
 function anythingOnTheLeft(center, letter) {
     // returns an array  example ["F", 2] Center :  5  CenterLetter :  F  peg length of 3
     for (var x = center - 1; x > 0; x--) {
-        if ($('td[id="' + letter + x + '"]').hasClass("clicked")) {
+        if (hasClickedClass(letter, x)) {
             return [letter, x];
         }
     }
@@ -299,114 +254,17 @@ Ship.prototype.findLeftBound = function (center, centerLetter) {
     } else {
         // found a bound on the left side
 
-        if (left > check[1]) {
-            // can proceede
-            return true;
-        } else {
-            // cannot go left
-            return false;
-        }
-
+        // true can go left, false cannot go left
+        return (left > check[1]) ? true : false;
     }
 
 }
-
-
-
-function anythingOnTheRight(center, letter) {
-
-    for ( var x = center + 1; x < 11; x++) {
-        if ($('td[id="' + letter + x + '"]').hasClass("clicked")) {
-            return [letter, x];
-        }
-    }
-    return null;
-}
-
-Ship.prototype.findRightBound = function(center, centerLetter) {
-//    console.log("===========================================");
-//    console.log("===========================================");
-//    console.log("Center : ", center, " CenterLetter : ", centerLetter);
-//    =-=Used COords:  ["E8", "F8"] ship.js:332
-//    Center: 4, CenterLetter: 5 ship.js:352
-//    Left: 1 , Right: 7, Top: 2, Bottom: 8 ship.js:353
-//    =========================================== ship.js:278
-//    =========================================== ship.js:279
-//    Center :  4  CenterLetter :  E ship.js:280
-//        ["E", 8] ship.js:282
-//    can proceede
-
-    var check = anythingOnTheRight(center, centerLetter);
-    var right = center + (this.pegLength - this.shipCords.length);
-
-    if (check == null) {
-        right = (right > 10) ? 10 : right;
-        console.log("From right", right);
-        if ((right - (center - 1)) < this.pegLength) {
-            return false;
-        }
-        return true;
-    } else {
-        if (right < check[1]) {
-            // can go left
-            return true;
-        } else {
-            // cannot go right
-            return false;
-        }
-
-    }
-
-}
-
-
-
-function anythingOnTheBottom(center, letter) {
-    var lp = letterPosition(letter);
-    for (var x = lp + 1; x < 11; x++) {
-        if ($('td[id="' + letters[x - 1] + center + '"]').hasClass("clicked")) {
-            return [letters[x - 1], x];
-        }
-    }
-    return null;
-}
-
-Ship.prototype.findBottomBound = function(center, centerLetter) {
-    console.log("================Bottom ===========================");
-    console.log("===========================================");
-    console.log("Center : ", center, " CenterLetter : ", centerLetter);
-
-
-    var check = anythingOnTheBottom(center, centerLetter);
-    var bottom = letterPosition(centerLetter) + (this.pegLength - this.shipCords.length);
-    console.log("top:", bottom, " checkTop:", check);
-    if (check == null) {
-        bottom = (bottom > 10) ? 10 : bottom;
-        console.log("From Top", top);
-        //if ()
-        if ((bottom - (letterPosition(centerLetter) - 1)) < this.pegLength) {
-            return false;
-        }
-        return true;
-    } else {
-        if (bottom < check[1]) {
-            console.log("can proceede");
-            return true;
-        } else {
-            console.log("cannot go Bottom");
-            return false;
-        }
-
-    }
-
-}
-
 
 
 function anythingOnTheTop(center, letter) {
     var lp = letterPosition(letter);
     for (var x = lp - 1; x > 0; x--) {
-        if ($('td[id="' + letters[x - 1] + center + '"]').hasClass("clicked")) {
+        if (hasClickedClass(letters[x - 1], center)) {
             return [letters[x - 1], x];
         }
     }
@@ -420,24 +278,84 @@ Ship.prototype.findTopBound = function(center, centerLetter) {
 
     if (check == null) {
         top = (top < 1) ? 1 : top;
-        console.log("From Top", top);
-        //if ()
+
         if ((top + (letterPosition(centerLetter) - 1)) < this.pegLength) {
             return false;
         }
         return true;
     } else {
-        if (top > check[1]) {
-            console.log("can proceede");
-            return true;
-        } else {
-            console.log("cannot go top");
-            return false;
-        }
-
+        // true can go top, false cannot go top
+        return (top > check[1]) ? true : false;
     }
 
 }
+
+
+
+
+
+function anythingOnTheRight(center, letter) {
+
+    for ( var x = center + 1; x < 11; x++) {
+        if (hasClickedClass(letter, x)) {
+            return [letter, x];
+        }
+    }
+    return null;
+}
+
+Ship.prototype.findRightBound = function(center, centerLetter) {
+
+    var check = anythingOnTheRight(center, centerLetter);
+    var right = center + (this.pegLength - this.shipCords.length);
+
+    if (check == null) {
+        right = (right > 10) ? 10 : right;
+        console.log("From right", right);
+        if ((right - (center - 1)) < this.pegLength) {
+            return false;
+        }
+        return true;
+    } else {
+        // true can go left, false cannot go left
+        return (right < check[1]) ? true : false;
+    }
+
+}
+
+
+
+function anythingOnTheBottom(center, letter) {
+    var lp = letterPosition(letter);
+    for (var x = lp + 1; x < 11; x++) {
+        if (hasClickedClass(letters[x - 1], center)) {
+            return [letters[x - 1], x];
+        }
+    }
+    return null;
+}
+
+Ship.prototype.findBottomBound = function(center, centerLetter) {
+
+    var check = anythingOnTheBottom(center, centerLetter);
+    var bottom = letterPosition(centerLetter) + (this.pegLength - this.shipCords.length);
+
+    if (check == null) {
+        bottom = (bottom > 10) ? 10 : bottom;
+        if ((bottom - (letterPosition(centerLetter) - 1)) < this.pegLength) {
+            return false;
+        }
+        return true;
+    } else {
+        // true can go bottom, false cannot go bottom
+        return (bottom < check[1]) ? true : false;
+    }
+
+}
+
+
+
+
 
 Ship.prototype.step1 = function () {
 
@@ -459,16 +377,13 @@ Ship.prototype.step1 = function () {
     console.log("=-=Used COords: ", takenCoords);
 
 
-
-
-
     var anyValidEndPoints = 0;
 
     if (this.findLeftBound(center, tmp1[0])) {
         this.potentialEnds.push(tmp1[0] + left);
         $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
     } else {
-        console.log("====================No Left");
+        console.log("====================No Left bound");
         anyValidEndPoints++;
     }
 
@@ -476,7 +391,7 @@ Ship.prototype.step1 = function () {
         this.potentialEnds.push(tmp1[0] + right);
         $('td[id="' + tmp1[0] + right + '"]').addClass("gr");
     } else {
-        console.log("====================No RIght");
+        console.log("====================No RIght bound");
         anyValidEndPoints++;
     }
 
@@ -485,7 +400,7 @@ Ship.prototype.step1 = function () {
         this.potentialEnds.push(letters[top-1] + center);
         $('td[id="' + letters[top-1] + center + '"]').addClass("gr");
     } else {
-        console.log("====================No top");
+        console.log("====================No top bound");
         anyValidEndPoints++;
     }
 
@@ -493,7 +408,7 @@ Ship.prototype.step1 = function () {
         this.potentialEnds.push(letters[bottom - 1] + center);
         $('td[id="' + letters[bottom - 1] + center + '"]').addClass("gr");
     } else {
-        console.log("====================No bottom");
+        console.log("====================No bottom bound");
         anyValidEndPoints++;
     }
 
@@ -507,5 +422,14 @@ Ship.prototype.step1 = function () {
 }
 
 
+//436
+
+
 //Ship.prototype. = function () {
 
+
+
+
+//function searchForRowHinderances(center, letter, number) {
+//        console.log("Center:" + center + ", letter:" + letter + ", number" + number);
+//}
