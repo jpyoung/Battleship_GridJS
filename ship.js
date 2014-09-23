@@ -267,6 +267,11 @@ function searchForRowHinderances(center, letter, number) {
 }
 
 
+
+
+
+
+
 function anythingOnTheLeft(center, letter) {
     for (var x = center - 1; x > 0; x--) {
         if ($('td[id="' + letter + x + '"]').hasClass("clicked")) {
@@ -296,7 +301,7 @@ function findLeftBound(center, centerLetter, SClength, p) {
             console.log("can proceede");
             return true;
         } else {
-            console.log("cannot go right");
+            console.log("cannot go left");
             return false;
         }
 
@@ -353,6 +358,90 @@ function findRightBound(center, centerLetter, SClength, p) {
 
 }
 
+
+
+function anythingOnTheBottom(center, letter) {
+    var lp = letterPosition(letter);
+    for (var x = lp + 1; x < 11; x++) {
+        if ($('td[id="' + letters[x - 1] + center + '"]').hasClass("clicked")) {
+            return [letters[x - 1], x];
+        }
+    }
+    return null;
+}
+
+Ship.prototype.findBottomBound = function(center, centerLetter) {
+    console.log("================Bottom ===========================");
+    console.log("===========================================");
+    console.log("Center : ", center, " CenterLetter : ", centerLetter);
+
+
+    var check = anythingOnTheBottom(center, centerLetter);
+    var bottom = letterPosition(centerLetter) + (this.pegLength - this.shipCords.length);
+    console.log("top:", bottom, " checkTop:", check);
+    if (check == null) {
+        bottom = (bottom > 10) ? 10 : bottom;
+        console.log("From Top", top);
+        //if ()
+        if ((bottom - (letterPosition(centerLetter) - 1)) < this.pegLength) {
+            return false;
+        }
+        return true;
+    } else {
+        if (bottom < check[1]) {
+            console.log("can proceede");
+            return true;
+        } else {
+            console.log("cannot go Bottom");
+            return false;
+        }
+
+    }
+
+}
+
+
+
+function anythingOnTheTop(center, letter) {
+    var lp = letterPosition(letter);
+    for (var x = lp - 1; x > 0; x--) {
+        if ($('td[id="' + letters[x - 1] + center + '"]').hasClass("clicked")) {
+            return [letters[x - 1], x];
+        }
+    }
+    return null;
+}
+
+Ship.prototype.findTopBound = function(center, centerLetter) {
+    console.log("================Top ===========================");
+    console.log("===========================================");
+    console.log("Center : ", center, " CenterLetter : ", centerLetter);
+
+
+    var checkTop = anythingOnTheTop(center, centerLetter);
+    var top = letterPosition(centerLetter) - (this.pegLength - this.shipCords.length);
+    console.log("top:", top, " checkTop:", checkTop);
+    if (checkTop == null) {
+        top = (top < 1) ? 1 : top;
+        console.log("From Top", top);
+        //if ()
+        if ((top + (letterPosition(centerLetter) - 1)) < this.pegLength) {
+            return false;
+        }
+        return true;
+    } else {
+        if (top > checkTop[1]) {
+            console.log("can proceede");
+            return true;
+        } else {
+            console.log("cannot go top");
+            return false;
+        }
+
+    }
+
+}
+
 Ship.prototype.step1 = function () {
 
     var tmp1 = splitt(this.shipCords[0]);
@@ -366,7 +455,7 @@ Ship.prototype.step1 = function () {
 
    // findRightBound(center, tmp1[0], this.shipCords.length, this.pegLength);
 
-    findLeftBound(center, tmp1[0], this.shipCords.length, this.pegLength);
+    //this.findBottomBound(center, tmp1[0]);
 
 
     left = (left < 1) ? 1 : left;
@@ -405,6 +494,10 @@ Ship.prototype.step1 = function () {
 //        console.log("====================No Left");
 //    }
 
+
+
+
+
     if (findLeftBound(center, tmp1[0], this.shipCords.length, this.pegLength)) {
         this.potentialEnds.push(tmp1[0] + left);
         $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
@@ -419,6 +512,28 @@ Ship.prototype.step1 = function () {
         console.log("====================No RIght");
     }
 
+
+    if (this.findTopBound(center, tmp1[0])) {
+        this.potentialEnds.push(letters[top-1] + center);
+        $('td[id="' + letters[top-1] + center + '"]').addClass("gr");
+    } else {
+        console.log("====================No top");
+    }
+
+    if (this.findBottomBound(center, tmp1[0])) {
+        this.potentialEnds.push(letters[bottom - 1] + center);
+        $('td[id="' + letters[bottom - 1] + center + '"]').addClass("gr");
+    } else {
+        console.log("====================No bottom");
+    }
+
+
+
+
+
+
+
+
     //    if ((center + (this.pegLength - this.shipCords.length)) <= 10) {
 //        this.potentialEnds.push(tmp1[0] + right);
 //        $('td[id="' + tmp1[0] + right + '"]').addClass("gr");
@@ -427,20 +542,20 @@ Ship.prototype.step1 = function () {
 //    }
 
 
-    if (centerLetter >= this.pegLength) {
-        this.potentialEnds.push(letters[top-1] + center);
-        $('td[id="' + letters[top-1] + center + '"]').addClass("gr");
-    } else {
-        console.log("====================No top");
-    }
+//    if (centerLetter >= this.pegLength) {
+//        this.potentialEnds.push(letters[top-1] + center);
+//        $('td[id="' + letters[top-1] + center + '"]').addClass("gr");
+//    } else {
+//        console.log("====================No top");
+//    }
 
 
-    if ((centerLetter + (this.pegLength - this.shipCords.length)) <= 10) {
-        this.potentialEnds.push(letters[bottom - 1] + center);
-        $('td[id="' + letters[bottom - 1] + center + '"]').addClass("gr");
-    } else {
-        console.log("====================No top");
-    }
+//    if ((centerLetter + (this.pegLength - this.shipCords.length)) <= 10) {
+//        this.potentialEnds.push(letters[bottom - 1] + center);
+//        $('td[id="' + letters[bottom - 1] + center + '"]').addClass("gr");
+//    } else {
+//        console.log("====================No top");
+//    }
 
 
 //    $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
