@@ -1,94 +1,126 @@
 <html>
 <head>
-
+    <title>12 removing click</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
-
-    <!--//<script src="help.js"></script>-->
-    <script src="ship.js"></script>
 
     <script>
         $(function(){
 
 
+            function holder(tr, length) {
 
+                function a() {
+                    var counter = 0;
+                    $("td").click(function(e) {
+
+
+                        $(this).addClass('clicked');
+
+                        counter++;
+                        if (counter === length) {
+                            console.log("finished");
+                            $('td').off('click');
+                            $(this).trigger(tr);
+                        }
+                    });
+                }
+
+                return a();
+            }
 
 
 
             function l(e) { console.log(e); }
 
-
             function startShipPlacement(boat) {
-                console.log(boat);
+                console.log("Name of Boat: " + boat);
 
-                var count = 1;
-
-                $("td").click(function(e) {
-
-                    var cellClicked = $(this).attr('id');
-
-                    if ($(this).hasClass("clicked") || $(this).hasClass("disabled")) {
-                        alert("You cannot click the same cell twice.");
-                    } else {
-
-                        if (count == 1) {
-                            boat.shipCords_push(cellClicked);
-
-                            $(this).addClass('clicked');
-
-
-
-
-                            if (boat.shipCords.length == 1) {
-                                boat.step1();
-                            }
-
-                            count++;
-                        }
-
-                        if (count == 2) {
-                            if ($(this).hasClass("gr")) {
-                                console.log("hell yeah");
-                                boat.shipCords_push(cellClicked);
-                                boat.removePotentialEndsColoring();
-                                $(this).addClass('clicked');
-                                boat.fillInShip();
-                                count++;
-                            }
-                        }
-
-                        if (count == 3) {
-                            //the ship has been built
-                            $("#message").html(boat.getName() + " has been built.");
-                        }
-
-                        console.log(boat);
-
-                    }
-
-                });
-
+                holder("SecondShip", 3);
 
             }
+
+            $("td").on("SecondShip", function() {
+                console.log("Time to build second ship");
+                var counter = 0;
+                $("td").click(function(e) {
+
+
+                    $(this).addClass('clicked');
+
+                    counter++;
+                    if (counter === 2) {
+                        console.log("finishedd");
+                        $('td').off('click');
+                        $(this).trigger("ThirdShip");
+                    }
+                });
+            });
+
+            $("td").on("ThirdShip", function() {
+                console.log("Time to build second ship");
+                var counter = 0;
+                $("td").click(function(e) {
+
+
+                    $(this).addClass('clicked');
+
+                    counter++;
+                    if (counter === 4) {
+                        console.log("finishedd");
+                        $('td').off('click');
+                        //$(this).trigger("SecondShip");
+                    }
+                });
+            });
+
+
+
+
+//            function startShipPlacement(boat) {
+//                console.log("Name of Boat: " + boat);
+//
+//                var counter = 0;
+//                $("td").click(function(e) {
+//
+//
+//                            $(this).addClass('clicked');
+//
+//                    counter++;
+//                    if (counter === 2) {
+//                        console.log("finished");
+//                        $('td').off('click');
+//                        $(this).trigger("SecondShip");
+//                    }
+//                });
+//
+//
+//               // startShipPlacement("carrier");
+//
+//            }
+//
+//            $("td").on("SecondShip", function() {
+//                console.log("Time to build second ship");
+//                var counter = 0;
+//                $("td").click(function(e) {
+//
+//
+//                    $(this).addClass('clicked');
+//
+//                    counter++;
+//                    if (counter === 2) {
+//                        console.log("finishedd");
+//                        $('td').off('click');
+//                        //$(this).trigger("SecondShip");
+//                    }
+//                });
+//            });
 
 
             /////////
 
-
-            function simulateABoat() {
-                $("#E8").addClass("clicked");
-                $("#F8").addClass("clicked");
-                $("#E2").addClass("clicked");
-                $("#F2").addClass("clicked");
-                $("#C4").addClass("clicked");
-                $("#C5").addClass("clicked");
-                $("#C6").addClass("clicked");
-
-            }
-            simulateABoat();
-
-            var carrier = new Ship("Carrier", 3);
-
-            startShipPlacement(carrier);
+           // var carrier = new Ship("Carrier", 3);
+            startShipPlacement("carrier");
+           // startShipPlacement("Cruiser");
 
 
 //            startShipPlacement(carrier, function() {
