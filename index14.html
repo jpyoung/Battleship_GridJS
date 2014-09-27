@@ -14,8 +14,10 @@
 
             var gameBoats = new Array();
             function submitShips() {
-                console.log("FINAL RESULT: ", gameBoats);
+                console.log("FINAL RESULT: ");
+                console.log(JSON.stringify(gameBoats));
                 alert("Your Gameboard has been submitted to the server");
+
             }
 
             function startShipPlacement(boat) {
@@ -107,7 +109,6 @@
                         }
                         if (count == 2) {
                             if ($(this).hasClass("gr")) {
-                                console.log("hell yeah");
                                 boat.shipCords_push(cellClicked);
                                 boat.removePotentialEndsColoring();
                                 $(this).addClass('clicked');

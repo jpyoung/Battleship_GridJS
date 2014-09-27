@@ -172,15 +172,13 @@ Ship.prototype.fillInShip = function () {
     var center = parseInt(tmp1[1]);
 
     if (this.axisAlignment === "x") {
-        console.log("were doing x");
-
+        //console.log("were doing x");
         var leftB = tmp1[1];
         var rightB = tmp2[1];
-
-        console.log("LeftB: " + leftB + ", rightB: " + rightB);
+        //console.log("LeftB: " + leftB + ", rightB: " + rightB);
 
         for (var z = parseInt(leftB) + 1; z < rightB; z++) {
-            console.log("Coords: ", tmp1[0] + z);
+            //console.log("Coords: ", tmp1[0] + z);
             this.shipCords_push(tmp1[0] + z);
             $('td[id="' + tmp1[0] + z + '"]').addClass("clicked");
         }
@@ -188,14 +186,13 @@ Ship.prototype.fillInShip = function () {
     }
 
     if (this.axisAlignment === "y") {
-        console.log("were doing y");
+        //were doing y");
 
         var topB = letterPosition(tmp1[0]);
         var bottomB = letterPosition(tmp2[0]);
-        console.log("topB: " + topB + ", bottomB: " + bottomB);
+        //"topB: " + topB + ", bottomB: " + bottomB);
 
         for (var z = parseInt(topB) + 1; z < bottomB; z++) {
-            console.log("Coords: ", letters[z - 1] + center);
             this.shipCords_push(letters[z - 1] + center);
             $('td[id="' + letters[z - 1] + center + '"]').addClass("clicked");
         }
@@ -216,11 +213,6 @@ Ship.prototype.removePotentialEndsColoring = function () {
     //clearing the disabled cells;
     clearDisabledCells();
 }
-
-
-
-
-
 
 
 function hasClickedClass(letter, number) {
@@ -295,9 +287,6 @@ Ship.prototype.findTopBound = function(center, centerLetter) {
 }
 
 
-
-
-
 function anythingOnTheRight(center, letter) {
 
     for ( var x = center + 1; x < 11; x++) {
@@ -315,7 +304,6 @@ Ship.prototype.findRightBound = function(center, centerLetter) {
 
     if (check == null) {
         right = (right > 10) ? 10 : right;
-        console.log("From right", right);
         if ((right - (center - 1)) < this.pegLength) {
             return false;
         }
@@ -358,9 +346,6 @@ Ship.prototype.findBottomBound = function(center, centerLetter) {
 }
 
 
-
-
-
 Ship.prototype.step1 = function () {
 
     var tmp1 = splitt(this.shipCords[0]);
@@ -377,17 +362,13 @@ Ship.prototype.step1 = function () {
     top = (top < 1) ? 1 : top;
     bottom = (bottom > 10) ? 10 : bottom;
 
-
-    console.log("=-=Used COords: ", takenCoords);
-
-
     var anyValidEndPoints = 0;
 
     if (this.findLeftBound(center, tmp1[0])) {
         this.potentialEnds.push(tmp1[0] + left);
         $('td[id="' + tmp1[0] + left + '"]').addClass("gr");
     } else {
-        console.log("====================No Left bound");
+        //No Left bound");
         anyValidEndPoints++;
     }
 
@@ -395,16 +376,15 @@ Ship.prototype.step1 = function () {
         this.potentialEnds.push(tmp1[0] + right);
         $('td[id="' + tmp1[0] + right + '"]').addClass("gr");
     } else {
-        console.log("====================No RIght bound");
+        //No RIght bound");
         anyValidEndPoints++;
     }
-
 
     if (this.findTopBound(center, tmp1[0])) {
         this.potentialEnds.push(letters[top-1] + center);
         $('td[id="' + letters[top-1] + center + '"]').addClass("gr");
     } else {
-        console.log("====================No top bound");
+        //No top bound");
         anyValidEndPoints++;
     }
 
@@ -412,28 +392,12 @@ Ship.prototype.step1 = function () {
         this.potentialEnds.push(letters[bottom - 1] + center);
         $('td[id="' + letters[bottom - 1] + center + '"]').addClass("gr");
     } else {
-        console.log("====================No bottom bound");
+        //No bottom bound");
         anyValidEndPoints++;
     }
-
 
     if ( anyValidEndPoints === 4) {
         alert("Error, there are no possible endpoints to end this ship on. U must undo");
     }
 
-
-
 }
-
-
-//436
-
-
-//Ship.prototype. = function () {
-
-
-
-
-//function searchForRowHinderances(center, letter, number) {
-//        console.log("Center:" + center + ", letter:" + letter + ", number" + number);
-//}

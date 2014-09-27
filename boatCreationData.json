@@ -1,0 +1,63 @@
+[
+    {
+        "name": "Carrier",
+        "pegLength": 5,
+        "shipCords": [
+            "C2",
+            "D2",
+            "E2",
+            "F2",
+            "G2"
+        ],
+        "axisAlignment": "y",
+        "hitShotCords": [
+
+        ],
+        "isSunk": false,
+        "potentialEnds": [
+            "C6",
+            "G2"
+        ]
+    },
+    {
+        "name": "Destroyer",
+        "pegLength": 4,
+        "shipCords": [
+            "D4",
+            "D5",
+            "D6",
+            "D7"
+        ],
+        "axisAlignment": "x",
+        "hitShotCords": [
+
+        ],
+        "isSunk": false,
+        "potentialEnds": [
+            "D4",
+            "D10",
+            "A7",
+            "G7"
+        ]
+    },
+    {
+        "name": "Cruiser",
+        "pegLength": 3,
+        "shipCords": [
+            "H6",
+            "I6",
+            "J6"
+        ],
+        "axisAlignment": "y",
+        "hitShotCords": [
+
+        ],
+        "isSunk": false,
+        "potentialEnds": [
+            "H4",
+            "H8",
+            "F6",
+            "J6"
+        ]
+    }
+]
