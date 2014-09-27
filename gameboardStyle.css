@@ -32,3 +32,7 @@ td, th {
     width: 150px;
     padding-left: 20px;
 }
+
+.pending {
+    background-color: yellow;
+}

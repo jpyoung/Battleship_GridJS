@@ -1,0 +1,46 @@
+[
+    {
+        "RoundType": "outgoing",
+        "From": "player1",
+        "To": "player2"
+    },
+    {
+        "Rounds": [
+            {
+                "isHit": null,
+                "coords": [
+                    "F",
+                    6
+                ]
+            },
+            {
+                "isHit": null,
+                "coords": [
+                    "D",
+                    4
+                ]
+            },
+            {
+                "isHit": null,
+                "coords": [
+                    "C",
+                    4
+                ]
+            },
+            {
+                "isHit": null,
+                "coords": [
+                    "C",
+                    5
+                ]
+            },
+            {
+                "isHit": null,
+                "coords": [
+                    "D",
+                    5
+                ]
+            }
+        ]
+    }
+]
