@@ -80,9 +80,9 @@ Shot.prototype.getCoords = function() {
     return this.coords;
 }
 
-Shot.prototype.setCoords = function(x, y) {
-    this.coords[0] = x;
-    this.coords[1] = y;
+Shot.prototype.setCoords = function(letter, number) {
+    this.coords[0] = letter;
+    this.coords[1] = number;
 }
 
 Shot.prototype.setIsHit = function(v) {

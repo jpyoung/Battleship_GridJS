@@ -1,0 +1,535 @@
+<html>
+<head>
+    <title>Incoming</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+    //  http://jsonprettyprint.com/
+
+    <script src="ship.js"></script>
+    <script>
+        $(function(){
+
+            function l() {
+                console.log(arguments);
+            }
+
+            function createIncomingRoundStructure3() {
+                //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+
+                var wrapperData = new Array();
+
+                var x1 = new Shot();
+                x1.setCoords("A", 2);
+                x1.setIsHit(false);
+                var x2 = new Shot();
+                x2.setCoords("B", 2);
+                x2.setIsHit(true);
+                var x3 = new Shot();
+                x3.setCoords("C", 2);
+                x3.setIsHit(false);
+                var x4 = new Shot();
+                x4.setCoords("D", 2);
+                x4.setIsHit(true);
+                var x5 = new Shot();
+                x5.setCoords("E", 2);
+                x5.setIsHit(true);
+
+                var incomingRounds = new Array();
+                incomingRounds.push(x1);
+                incomingRounds.push(x2);
+                incomingRounds.push(x3);
+                incomingRounds.push(x4);
+                incomingRounds.push(x5);
+
+                wrapperData.push({"incomingRounds": incomingRounds});
+
+                var tmp = JSON.stringify(wrapperData);
+                // console.log(tmp);
+                return wrapperData;
+            }
+
+            function createIncomingRoundStructure2() {
+                //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+
+                var wrapperData = new Array();
+
+                var x1 = new Shot();
+                x1.setCoords("A", 5);
+                x1.setIsHit(false);
+                var x2 = new Shot();
+                x2.setCoords("A", 6);
+                x2.setIsHit(true);
+                var x3 = new Shot();
+                x3.setCoords("A", 7);
+                x3.setIsHit(false);
+                var x4 = new Shot();
+                x4.setCoords("A", 8);
+                x4.setIsHit(false);
+                var x5 = new Shot();
+                x5.setCoords("A", 9);
+                x5.setIsHit(true);
+
+                var incomingRounds = new Array();
+                incomingRounds.push(x1);
+                incomingRounds.push(x2);
+                incomingRounds.push(x3);
+                incomingRounds.push(x4);
+                incomingRounds.push(x5);
+
+                wrapperData.push({"incomingRounds": incomingRounds});
+
+                var tmp = JSON.stringify(wrapperData);
+               // console.log(tmp);
+                return wrapperData;
+            }
+
+         function createIncomingRoundStructure() {
+             //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+
+             var wrapperData = new Array();
+
+             var x1 = new Shot();
+             x1.setCoords("E", 5);
+             x1.setIsHit(false);
+             var x2 = new Shot();
+             x2.setCoords("E", 6);
+             x2.setIsHit(true);
+             var x3 = new Shot();
+             x3.setCoords("E", 7);
+             x3.setIsHit(false);
+             var x4 = new Shot();
+             x4.setCoords("E", 8);
+             x4.setIsHit(false);
+             var x5 = new Shot();
+             x5.setCoords("E", 9);
+             x5.setIsHit(false);
+
+             var incomingRounds = new Array();
+             incomingRounds.push(x1);
+             incomingRounds.push(x2);
+             incomingRounds.push(x3);
+             incomingRounds.push(x4);
+             incomingRounds.push(x5);
+
+             wrapperData.push({"incomingRounds": incomingRounds});
+
+             //var tmp = JSON.stringify(wrapperData);
+             //console.log(tmp);
+             return wrapperData;
+         }
+
+
+
+
+       function updateGridWithIncomingShots(jsonData) {
+           // function accepts a json string incoming shots
+
+           var data = JSON.parse(jsonData);
+           console.log(data);
+           console.log(data.length);
+           if (data.length === 1) {
+               console.log("One set of incoming shots is coming");
+               var IR = data[0].incomingRounds;
+               console.log(IR);
+               Object.keys(IR).forEach(function(key) {
+                   var cord = IR[key].coords[0] + IR[key].coords[1];
+                   var classTOAdd = (IR[key].isHit === false) ? "missed" : "hit";
+                   $("#" + cord).addClass(classTOAdd);
+                   console.log(key, IR[key]);
+               });
+
+           } else {
+               console.log("More than one set of incoming shots is for some reason coming in");
+               l("Jack", 5);
+
+              // l(data);
+
+               for (var x = 0; x < data.length; x++) {
+//
+                   var IR = data[x].ic;
+                   IR = IR[0].incomingRounds;
+                   l(IR);
+                   Object.keys(IR).forEach(function(key) {
+                       var cord = IR[key].coords[0] + IR[key].coords[1];
+                       var classTOAdd = (IR[key].isHit === false) ? "missed" : "hit";
+                       $("#" + cord).addClass(classTOAdd);
+                       console.log(key, IR[key]);
+                   });
+               }
+           }
+
+
+
+       }
+
+            var tmpJSON = createIncomingRoundStructure();
+            var tmpJSON2 = createIncomingRoundStructure2();
+            var tmpJSON3 = createIncomingRoundStructure3();
+            var wrp = new Array();
+            wrp.push({"ic": tmpJSON});
+            wrp.push({"ic": tmpJSON2});
+            wrp.push({"ic": tmpJSON3});
+           // wrp.push(tmpJSON);
+          //  wrp.push(tmpJSON2);
+
+            console.log(JSON.stringify(wrp));
+            updateGridWithIncomingShots(JSON.stringify(wrp));
+
+
+
+
+        });
+
+    </script>
+
+
+    <style>
+
+        table {
+            background-color: rgb(202, 241, 243);
+        }
+
+        td, th {
+            width: 40px;
+            height: 40px;
+        }
+
+        .clicked {
+            background-color: rgb(142, 142, 142);
+        }
+
+
+        .disabled {
+            background-color: rgb(197, 114, 114);
+        }
+        .gr {
+            background-color: green;
+        }
+
+        .hit {
+            background-color: rgb(202, 35, 35);
+        }
+
+        .missed {
+            background-color: white;
+        }
+
+        .colorGuide {
+            border: 1px black solid;
+            width: 150px;
+            padding-left: 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="gameBox">
+<table border="1" id="fireCords">
+<tr>
+    <th id="00"></th>
+
+    <th id="01">1</th>
+
+    <th id="02">2</th>
+
+    <th id="03">3</th>
+
+    <th id="04">4</th>
+
+    <th id="05">5</th>
+
+    <th id="06">6</th>
+
+    <th id="07">7</th>
+
+    <th id="08">8</th>
+
+    <th id="09">9</th>
+
+    <th id="010">10</th>
+</tr>
+<tr>
+    <th id="A0">A</th>
+
+    <td id="A1"></td>
+
+    <td id="A2"></td>
+
+    <td id="A3"></td>
+
+    <td id="A4"></td>
+
+    <td id="A5"></td>
+
+    <td id="A6"></td>
+
+    <td id="A7"></td>
+
+    <td id="A8"></td>
+
+    <td id="A9"></td>
+
+    <td id="A10"></td>
+</tr>
+
+
+<tr>
+    <th id="B0">B</th>
+
+    <td id="B1"></td>
+
+    <td id="B2"></td>
+
+    <td id="B3"></td>
+
+    <td id="B4"></td>
+
+    <td id="B5"></td>
+
+    <td id="B6"></td>
+
+    <td id="B7"></td>
+
+    <td id="B8"></td>
+
+    <td id="B9"></td>
+
+    <td id="B10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="C0">C</th>
+
+    <td id="C1"></td>
+
+    <td id="C2"></td>
+
+    <td id="C3"></td>
+
+    <td id="C4"></td>
+
+    <td id="C5"></td>
+
+    <td id="C6"></td>
+
+    <td id="C7"></td>
+
+    <td id="C8"></td>
+
+    <td id="C9"></td>
+
+    <td id="C10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="D0">D</th>
+
+    <td id="D1"></td>
+
+    <td id="D2"></td>
+
+    <td id="D3"></td>
+
+    <td id="D4"></td>
+
+    <td id="D5"></td>
+
+    <td id="D6"></td>
+
+    <td id="D7"></td>
+
+    <td id="D8"></td>
+
+    <td id="D9"></td>
+
+    <td id="D10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="E0">E</th>
+
+    <td id="E1"></td>
+
+    <td id="E2"></td>
+
+    <td id="E3"></td>
+
+    <td id="E4"></td>
+
+    <td id="E5"></td>
+
+    <td id="E6"></td>
+
+    <td id="E7"></td>
+
+    <td id="E8"></td>
+
+    <td id="E9"></td>
+
+    <td id="E10"></td>
+</tr>
+
+
+<tr>
+    <th id="F0">F</th>
+
+    <td id="F1"></td>
+
+    <td id="F2"></td>
+
+    <td id="F3"></td>
+
+    <td id="F4"></td>
+
+    <td id="F5"></td>
+
+    <td id="F6"></td>
+
+    <td id="F7"></td>
+
+    <td id="F8"></td>
+
+    <td id="F9"></td>
+
+    <td id="F10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="G0">G</th>
+
+    <td id="G1"></td>
+
+    <td id="G2"></td>
+
+    <td id="G3"></td>
+
+    <td id="G4"></td>
+
+    <td id="G5"></td>
+
+    <td id="G6"></td>
+
+    <td id="G7"></td>
+
+    <td id="G8"></td>
+
+    <td id="G9"></td>
+
+    <td id="G10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="H0">H</th>
+
+    <td id="H1"></td>
+
+    <td id="H2"></td>
+
+    <td id="H3"></td>
+
+    <td id="H4"></td>
+
+    <td id="H5"></td>
+
+    <td id="H6"></td>
+
+    <td id="H7"></td>
+
+    <td id="H8"></td>
+
+    <td id="H9"></td>
+
+    <td id="H10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="I0">I</th>
+
+    <td id="I1"></td>
+
+    <td id="I2"></td>
+
+    <td id="I3"></td>
+
+    <td id="I4"></td>
+
+    <td id="I5"></td>
+
+    <td id="I6"></td>
+
+    <td id="I7"></td>
+
+    <td id="I8"></td>
+
+    <td id="I9"></td>
+
+    <td id="I10"></td>
+</tr>
+
+
+
+<tr>
+    <th id="J0">J</th>
+
+    <td id="J1"></td>
+
+    <td id="J2"></td>
+
+    <td id="J3"></td>
+
+    <td id="J4"></td>
+
+    <td id="J5"></td>
+
+    <td id="J6"></td>
+
+    <td id="J7"></td>
+
+    <td id="J8"></td>
+
+    <td id="J9"></td>
+
+    <td id="J10"></td>
+</tr>
+
+
+
+
+</table>
+
+
+
+
+
+<div class="colorGuide">
+    <h3>Color Guide</h3>
+    <p>Hit: RED</p>
+    <p>Miss: WHITE</p>
+    <p>Ship: GRAY</p>
+</div>
+
+
+
+<br/>
+<h3 id="message">Building Ship</h3>
+
+
+</div>
+
+
+</body>
+</html>
