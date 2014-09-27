@@ -4,50 +4,107 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 
     <!--//<script src="help.js"></script>-->
-    <script src="ship.js"></script>
+    <script src="SHIP_noneDebug.js"></script>
 
     <script>
         $(function(){
 
 
-
-
-
-
             function l(e) { console.log(e); }
 
+            var gameBoats = new Array();
+            function submitShips() {
+                console.log("FINAL RESULT: ", gameBoats);
+                alert("Your Gameboard has been submitted to the server");
+            }
 
             function startShipPlacement(boat) {
-                console.log(boat);
-
                 var count = 1;
-
                 $("td").click(function(e) {
-
-
-
                     var cellClicked = $(this).attr('id');
-
                     if ($(this).hasClass("clicked") || $(this).hasClass("disabled")) {
                         alert("You cannot click the same cell twice.");
                     } else {
-
                         if (count == 1) {
                             boat.shipCords_push(cellClicked);
-
                             $(this).addClass('clicked');
-
-
-
-
                             if (boat.shipCords.length == 1) {
-                                showPlausibleSelections(cellClicked);
                                 boat.step1();
                             }
-
                             count++;
                         }
+                        if (count == 2) {
+                            if ($(this).hasClass("gr")) {
+                                boat.shipCords_push(cellClicked);
+                                boat.removePotentialEndsColoring();
+                                $(this).addClass('clicked');
+                                boat.fillInShip();
+                                count++;
+                            }
+                        }
+                        if (count === 3) {
+                            //the ship has been built
+                            $("#message").html(boat.getName() + " has been built.");
+                            $('td').off('click');
+                            $(this).trigger("SecondShip");
+                        }
+                    }
+                });
+            }
 
+            $("td").on("SecondShip", function() {
+                var boat = new Ship("Destroyer", 4);
+                gameBoats.push(boat);
+                var count = 1;
+                $("td").click(function(e) {
+                    var cellClicked = $(this).attr('id');
+                    if ($(this).hasClass("clicked") || $(this).hasClass("disabled")) {
+                        alert("You cannot click the same cell twice.");
+                    } else {
+                        if (count == 1) {
+                            boat.shipCords_push(cellClicked);
+                            $(this).addClass('clicked');
+                            if (boat.shipCords.length == 1) {
+                                boat.step1();
+                            }
+                            count++;
+                        }
+                        if (count == 2) {
+                            if ($(this).hasClass("gr")) {
+                                boat.shipCords_push(cellClicked);
+                                boat.removePotentialEndsColoring();
+                                $(this).addClass('clicked');
+                                boat.fillInShip();
+                                count++;
+                            }
+                        }
+                        if (count === 3) {
+                            //the ship has been built
+                            $("#message").append(", " + boat.getName() + " has been built.");
+                            $('td').off('click');
+                            $(this).trigger("ThirdShip");
+                        }
+                    }
+                });
+            });
+
+            $("td").on("ThirdShip", function() {
+                var boat = new Ship("Cruiser", 3);
+                gameBoats.push(boat);
+                var count = 1;
+                $("td").click(function(e) {
+                    var cellClicked = $(this).attr('id');
+                    if ($(this).hasClass("clicked") || $(this).hasClass("disabled")) {
+                        alert("You cannot click the same cell twice.");
+                    } else {
+                        if (count == 1) {
+                            boat.shipCords_push(cellClicked);
+                            $(this).addClass('clicked');
+                            if (boat.shipCords.length == 1) {
+                                boat.step1();
+                            }
+                            count++;
+                        }
                         if (count == 2) {
                             if ($(this).hasClass("gr")) {
                                 console.log("hell yeah");
@@ -58,55 +115,23 @@
                                 count++;
                             }
                         }
-
-                        if (count == 3) {
+                        if (count === 3) {
                             //the ship has been built
-                            $("#message").html(boat.getName() + " has been built.");
+                            $("#message").append(", " + boat.getName() + " has been built.");
+                            $('td').off('click');
+                            submitShips();
                         }
-
-//                        if (boat.shipCords.length == 2) {
-//
-//
-//
-//
-//                            if (boat.hasAxisAlignmentBeenDetermined()) {
-//                                if (boat.axisAlignment === "x") {
-//                                    l("disabling Remaining Row Cells");
-//                                    disableRemaingRowsCells(cellClicked);
-//                                } else {
-//                                    l("disabling Remaining Col Cells");
-//                                    disableRemaingColumnCells(cellClicked);
-//                                }
-//
-//                            }
-//                        }
-
-//                        if (boat.shipCords.length == 4) {
-//                            cb();
-//                        }
-
-
-                        console.log(boat);
-
                     }
-
                 });
+            });
 
 
-            }
+            var carrier = new Ship("Carrier", 5);
 
+            gameBoats.push(carrier);
 
-            /////////
-
-            var carrier = new Ship("Carrier", 6);
             startShipPlacement(carrier);
 
-
-//            startShipPlacement(carrier, function() {
-//
-//                console.log("==== OnTo the next ship ==");
-//
-//            });
 
 
 
@@ -435,11 +460,11 @@
 
 </div>
 
-Aircraft Carrier: 5 boxes
+<span id="acLabel">Aircraft Carrier: 5 boxes</span>
 
-Destroyers: 3 boxes
+Destroyers: 4 boxes
 
-Cruisers: 2 boxes
+Cruisers: 3 boxes
 
 </body>
 </html>

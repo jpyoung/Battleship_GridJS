@@ -35,7 +35,7 @@
             function startShipPlacement(boat) {
                 console.log("Name of Boat: " + boat);
 
-                holder("SecondShip", 3);
+                holder("SecondShip", 5);
 
             }
 
@@ -48,7 +48,7 @@
                     $(this).addClass('clicked');
 
                     counter++;
-                    if (counter === 2) {
+                    if (counter === 3) {
                         console.log("finishedd");
                         $('td').off('click');
                         $(this).trigger("ThirdShip");
@@ -65,7 +65,7 @@
                     $(this).addClass('clicked');
 
                     counter++;
-                    if (counter === 4) {
+                    if (counter === 2) {
                         console.log("finishedd");
                         $('td').off('click');
                         //$(this).trigger("SecondShip");
@@ -157,6 +157,10 @@
         }
         .gr {
             background-color: green;
+        }
+
+        .linethrough {
+            text-decoration: line-through;
         }
 
     </style>
@@ -456,6 +460,11 @@
 
 </div>
 
+<span id="acLabel">Aircraft Carrier: 5 boxes</span>
+
+Destroyers: 3 boxes
+
+Cruisers: 2 boxes
 
 </body>
 </html>
