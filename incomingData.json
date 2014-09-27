@@ -1,129 +1,44 @@
 [
     {
-        "ic": [
-            {
-                "incomingRounds": [
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "E",
-                            5
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "E",
-                            6
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "E",
-                            7
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "E",
-                            8
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "E",
-                            9
-                        ]
-                    }
-                ]
-            }
-        ]
+        "RoundType": "outgoing",
+        "From": "player1",
+        "To": "player2"
     },
     {
-        "ic": [
+        "Rounds": [
             {
-                "incomingRounds": [
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "A",
-                            5
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "A",
-                            6
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "A",
-                            7
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "A",
-                            8
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "A",
-                            9
-                        ]
-                    }
+                "isHit": false,
+                "coords": [
+                    "A",
+                    2
                 ]
-            }
-        ]
-    },
-    {
-        "ic": [
+            },
             {
-                "incomingRounds": [
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "A",
-                            2
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "B",
-                            2
-                        ]
-                    },
-                    {
-                        "isHit": false,
-                        "coords": [
-                            "C",
-                            2
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "D",
-                            2
-                        ]
-                    },
-                    {
-                        "isHit": true,
-                        "coords": [
-                            "E",
-                            2
-                        ]
-                    }
+                "isHit": true,
+                "coords": [
+                    "B",
+                    2
+                ]
+            },
+            {
+                "isHit": false,
+                "coords": [
+                    "C",
+                    2
+                ]
+            },
+            {
+                "isHit": true,
+                "coords": [
+                    "D",
+                    2
+                ]
+            },
+            {
+                "isHit": true,
+                "coords": [
+                    "E",
+                    2
                 ]
             }
         ]

@@ -13,6 +13,7 @@
                 console.log(arguments);
             }
 
+
             function createIncomingRoundStructure3() {
                 //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
 
@@ -41,95 +42,23 @@
                 incomingRounds.push(x4);
                 incomingRounds.push(x5);
 
-                wrapperData.push({"incomingRounds": incomingRounds});
+                wrapperData.push({"RoundType": "outgoing", "From": "player1", "To": "player2"});
+                wrapperData.push({"Rounds": incomingRounds});
 
                 var tmp = JSON.stringify(wrapperData);
-                // console.log(tmp);
-                return wrapperData;
+                //console.log(tmp);
+                return tmp;
             }
 
-            function createIncomingRoundStructure2() {
-                //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+            function updateGridWithIncomingShots(jsonData) {
+                // function accepts a json string incoming shots
 
-                var wrapperData = new Array();
+                var data = JSON.parse(jsonData);
+                console.log(data);
 
-                var x1 = new Shot();
-                x1.setCoords("A", 5);
-                x1.setIsHit(false);
-                var x2 = new Shot();
-                x2.setCoords("A", 6);
-                x2.setIsHit(true);
-                var x3 = new Shot();
-                x3.setCoords("A", 7);
-                x3.setIsHit(false);
-                var x4 = new Shot();
-                x4.setCoords("A", 8);
-                x4.setIsHit(false);
-                var x5 = new Shot();
-                x5.setCoords("A", 9);
-                x5.setIsHit(true);
+                console.log(data.length);
 
-                var incomingRounds = new Array();
-                incomingRounds.push(x1);
-                incomingRounds.push(x2);
-                incomingRounds.push(x3);
-                incomingRounds.push(x4);
-                incomingRounds.push(x5);
-
-                wrapperData.push({"incomingRounds": incomingRounds});
-
-                var tmp = JSON.stringify(wrapperData);
-               // console.log(tmp);
-                return wrapperData;
-            }
-
-         function createIncomingRoundStructure() {
-             //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
-
-             var wrapperData = new Array();
-
-             var x1 = new Shot();
-             x1.setCoords("E", 5);
-             x1.setIsHit(false);
-             var x2 = new Shot();
-             x2.setCoords("E", 6);
-             x2.setIsHit(true);
-             var x3 = new Shot();
-             x3.setCoords("E", 7);
-             x3.setIsHit(false);
-             var x4 = new Shot();
-             x4.setCoords("E", 8);
-             x4.setIsHit(false);
-             var x5 = new Shot();
-             x5.setCoords("E", 9);
-             x5.setIsHit(false);
-
-             var incomingRounds = new Array();
-             incomingRounds.push(x1);
-             incomingRounds.push(x2);
-             incomingRounds.push(x3);
-             incomingRounds.push(x4);
-             incomingRounds.push(x5);
-
-             wrapperData.push({"incomingRounds": incomingRounds});
-
-             //var tmp = JSON.stringify(wrapperData);
-             //console.log(tmp);
-             return wrapperData;
-         }
-
-
-
-
-       function updateGridWithIncomingShots(jsonData) {
-           // function accepts a json string incoming shots
-
-           var data = JSON.parse(jsonData);
-           console.log(data);
-           console.log(data.length);
-           if (data.length === 1) {
-               console.log("One set of incoming shots is coming");
-               var IR = data[0].incomingRounds;
+               var IR = data[1].Rounds;
                console.log(IR);
                Object.keys(IR).forEach(function(key) {
                    var cord = IR[key].coords[0] + IR[key].coords[1];
@@ -138,42 +67,145 @@
                    console.log(key, IR[key]);
                });
 
-           } else {
-               console.log("More than one set of incoming shots is for some reason coming in");
-               l("Jack", 5);
+            }
 
-              // l(data);
 
-               for (var x = 0; x < data.length; x++) {
+            var d = createIncomingRoundStructure3();
+            console.log(d);
+
+
+
+
+            updateGridWithIncomingShots(d);
+
+
 //
-                   var IR = data[x].ic;
-                   IR = IR[0].incomingRounds;
-                   l(IR);
-                   Object.keys(IR).forEach(function(key) {
-                       var cord = IR[key].coords[0] + IR[key].coords[1];
-                       var classTOAdd = (IR[key].isHit === false) ? "missed" : "hit";
-                       $("#" + cord).addClass(classTOAdd);
-                       console.log(key, IR[key]);
-                   });
-               }
-           }
-
-
-
-       }
-
-            var tmpJSON = createIncomingRoundStructure();
-            var tmpJSON2 = createIncomingRoundStructure2();
-            var tmpJSON3 = createIncomingRoundStructure3();
-            var wrp = new Array();
-            wrp.push({"ic": tmpJSON});
-            wrp.push({"ic": tmpJSON2});
-            wrp.push({"ic": tmpJSON3});
-           // wrp.push(tmpJSON);
-          //  wrp.push(tmpJSON2);
-
-            console.log(JSON.stringify(wrp));
-            updateGridWithIncomingShots(JSON.stringify(wrp));
+//            function createIncomingRoundStructure2() {
+//                //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+//
+//                var wrapperData = new Array();
+//
+//                var x1 = new Shot();
+//                x1.setCoords("A", 5);
+//                x1.setIsHit(false);
+//                var x2 = new Shot();
+//                x2.setCoords("A", 6);
+//                x2.setIsHit(true);
+//                var x3 = new Shot();
+//                x3.setCoords("A", 7);
+//                x3.setIsHit(false);
+//                var x4 = new Shot();
+//                x4.setCoords("A", 8);
+//                x4.setIsHit(false);
+//                var x5 = new Shot();
+//                x5.setCoords("A", 9);
+//                x5.setIsHit(true);
+//
+//                var incomingRounds = new Array();
+//                incomingRounds.push(x1);
+//                incomingRounds.push(x2);
+//                incomingRounds.push(x3);
+//                incomingRounds.push(x4);
+//                incomingRounds.push(x5);
+//
+//                wrapperData.push({"incomingRounds": incomingRounds});
+//
+//                var tmp = JSON.stringify(wrapperData);
+//               // console.log(tmp);
+//                return wrapperData;
+//            }
+//
+//         function createIncomingRoundStructure() {
+//             //[{"incomingRounds":[{"isHit":false,"coords":["E",5]},{"isHit":true,"coords":["E",6]},{"isHit":false,"coords":["E",7]},{"isHit":false,"coords":["E",8]},{"isHit":false,"coords":["E",9]}]}]
+//
+//             var wrapperData = new Array();
+//
+//             var x1 = new Shot();
+//             x1.setCoords("E", 5);
+//             x1.setIsHit(false);
+//             var x2 = new Shot();
+//             x2.setCoords("E", 6);
+//             x2.setIsHit(true);
+//             var x3 = new Shot();
+//             x3.setCoords("E", 7);
+//             x3.setIsHit(false);
+//             var x4 = new Shot();
+//             x4.setCoords("E", 8);
+//             x4.setIsHit(false);
+//             var x5 = new Shot();
+//             x5.setCoords("E", 9);
+//             x5.setIsHit(false);
+//
+//             var incomingRounds = new Array();
+//             incomingRounds.push(x1);
+//             incomingRounds.push(x2);
+//             incomingRounds.push(x3);
+//             incomingRounds.push(x4);
+//             incomingRounds.push(x5);
+//
+//             wrapperData.push({"incomingRounds": incomingRounds});
+//
+//             //var tmp = JSON.stringify(wrapperData);
+//             //console.log(tmp);
+//             return wrapperData;
+//         }
+//
+//
+//
+//
+//       function updateGridWithIncomingShots(jsonData) {
+//           // function accepts a json string incoming shots
+//
+//           var data = JSON.parse(jsonData);
+//           console.log(data);
+//           console.log(data.length);
+//           if (data.length === 1) {
+//               console.log("One set of incoming shots is coming");
+//               var IR = data[0].incomingRounds;
+//               console.log(IR);
+//               Object.keys(IR).forEach(function(key) {
+//                   var cord = IR[key].coords[0] + IR[key].coords[1];
+//                   var classTOAdd = (IR[key].isHit === false) ? "missed" : "hit";
+//                   $("#" + cord).addClass(classTOAdd);
+//                   console.log(key, IR[key]);
+//               });
+//
+//           } else {
+//               console.log("More than one set of incoming shots is for some reason coming in");
+//               l("Jack", 5);
+//
+//              // l(data);
+//
+//               for (var x = 0; x < data.length; x++) {
+////
+//                   var IR = data[x].ic;
+//                   IR = IR[0].incomingRounds;
+//                   l(IR);
+//                   Object.keys(IR).forEach(function(key) {
+//                       var cord = IR[key].coords[0] + IR[key].coords[1];
+//                       var classTOAdd = (IR[key].isHit === false) ? "missed" : "hit";
+//                       $("#" + cord).addClass(classTOAdd);
+//                       console.log(key, IR[key]);
+//                   });
+//               }
+//           }
+//
+//
+//
+//       }
+//
+//            var tmpJSON = createIncomingRoundStructure();
+//            var tmpJSON2 = createIncomingRoundStructure2();
+//            var tmpJSON3 = createIncomingRoundStructure3();
+//            var wrp = new Array();
+//            wrp.push({"ic": tmpJSON});
+//            wrp.push({"ic": tmpJSON2});
+//            wrp.push({"ic": tmpJSON3});
+//           // wrp.push(tmpJSON);
+//          //  wrp.push(tmpJSON2);
+//
+//            console.log(JSON.stringify(wrp));
+//            updateGridWithIncomingShots(JSON.stringify(wrp));
 
 
 
