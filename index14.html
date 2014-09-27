@@ -3,7 +3,7 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 
-    <!--//<script src="help.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="gameboardStyle.css">
     <script src="SHIP_noneDebug.js"></script>
 
     <script>
@@ -14,6 +14,10 @@
 
             var gameBoats = new Array();
             function submitShips() {
+                //AJAX CALL to the back end will be made from this method.
+                // from which the json data will be inserted into the table.
+
+
                 console.log("FINAL RESULT: ");
                 console.log(JSON.stringify(gameBoats));
                 alert("Your Gameboard has been submitted to the server");
@@ -141,30 +145,7 @@
     </script>
 
 
-    <style>
 
-        table {
-            background-color: rgb(202, 241, 243);
-        }
-
-        td, th {
-            width: 40px;
-            height: 40px;
-        }
-
-        .clicked {
-            background-color: red;
-        }
-
-
-        .disabled {
-            background-color: rgb(197, 114, 114);
-        }
-        .gr {
-            background-color: green;
-        }
-
-    </style>
 
 </head>
 <body>
