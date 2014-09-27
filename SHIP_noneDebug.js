@@ -69,7 +69,7 @@ function autoClick(sel) {
 
 function Shot () {
     this.isHit = null;
-    this.coords = new Array();
+    this.coords = null;
 }
 
 Shot.prototype.getIsHit = function() {
@@ -81,8 +81,7 @@ Shot.prototype.getCoords = function() {
 }
 
 Shot.prototype.setCoords = function(letter, number) {
-    this.coords[0] = letter;
-    this.coords[1] = number;
+    this.coords = letter + number;
 }
 
 Shot.prototype.setIsHit = function(v) {

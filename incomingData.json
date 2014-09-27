@@ -7,39 +7,24 @@
     {
         "Rounds": [
             {
-                "isHit": false,
-                "coords": [
-                    "A",
-                    2
-                ]
+                "isHit": null,
+                "coords": "C5"
             },
             {
-                "isHit": true,
-                "coords": [
-                    "B",
-                    2
-                ]
+                "isHit": null,
+                "coords": "D4"
             },
             {
-                "isHit": false,
-                "coords": [
-                    "C",
-                    2
-                ]
+                "isHit": null,
+                "coords": "E5"
             },
             {
-                "isHit": true,
-                "coords": [
-                    "D",
-                    2
-                ]
+                "isHit": null,
+                "coords": "F5"
             },
             {
-                "isHit": true,
-                "coords": [
-                    "E",
-                    2
-                ]
+                "isHit": null,
+                "coords": "G5"
             }
         ]
     }

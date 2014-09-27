@@ -8,38 +8,23 @@
         "Rounds": [
             {
                 "isHit": null,
-                "coords": [
-                    "F",
-                    6
-                ]
+                "coords": "C5"
             },
             {
                 "isHit": null,
-                "coords": [
-                    "D",
-                    4
-                ]
+                "coords": "D4"
             },
             {
                 "isHit": null,
-                "coords": [
-                    "C",
-                    4
-                ]
+                "coords": "E5"
             },
             {
                 "isHit": null,
-                "coords": [
-                    "C",
-                    5
-                ]
+                "coords": "F5"
             },
             {
                 "isHit": null,
-                "coords": [
-                    "D",
-                    5
-                ]
+                "coords": "G5"
             }
         ]
     }
